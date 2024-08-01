@@ -171,17 +171,30 @@ section {
 }
 
 .item>input[type="checkbox"]:checked {
-    background-color: #4CAF50;
+
     border-color: #4CAF50;
 }
 
 .item>input[type="checkbox"]:checked::before {
     content: '✔';
-    color: #fff;
+    color: #4CAF50;
     font-size: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.item>input[type="checkbox"]:hover::before {
+    content: '✔';
+    color: #4CAF50;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.item>input[type="checkbox"]::before {
+    content: '';
 }
 
 .item>input[type="checkbox"]:checked+label {
@@ -193,6 +206,7 @@ section {
     flex-grow: 1;
     word-break: break-all;
 }
+
 
 .item>button {
     background: none;
@@ -207,6 +221,10 @@ section {
 .item>button:hover,
 .item>button:focus {
     color: #d32f2f;
+}
+
+.completedTasksContainer {
+    display: none;
 }
 
 @media (min-width: 768px) {

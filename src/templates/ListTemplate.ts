@@ -8,18 +8,25 @@ interface DOMList {
 
 export default class ListTemplate implements DOMList {
     ul: HTMLUListElement;
+    completedUl: HTMLUListElement;
+    completedSection: HTMLElement;
     static instance: ListTemplate = new ListTemplate();
 
     private constructor() {
         this.ul = document.getElementById("listItems") as HTMLUListElement;
+        this.completedUl = document.getElementById("completedListItems") as HTMLUListElement;
+        this.completedSection = document.querySelector(".completedTasksContainer") as HTMLElement;
     }
 
     clear(): void {
         this.ul.innerHTML = '';
+        this.completedUl.innerHTML = '';
     }
 
     render(fullList: FullList): void {
         this.clear();
+        let hasCompletedTask = false;
+
         fullList.list.slice().reverse().forEach(item => {
             const li = document.createElement("li") as HTMLLIElement;
             li.className = "item";
@@ -34,6 +41,7 @@ export default class ListTemplate implements DOMList {
             check.addEventListener('change', () => {
                 item.checked = !item.checked;
                 fullList.save();
+                this.render(fullList);
             });
 
             const label = document.createElement("label") as HTMLLabelElement;
@@ -51,7 +59,14 @@ export default class ListTemplate implements DOMList {
                 this.render(fullList);
             });
 
-            this.ul.append(li);
+            if (item.checked) {
+                this.completedUl.append(li)
+                hasCompletedTask = true;
+            } else {
+                this.ul.append(li);
+            }
         });
+
+        this.completedSection.style.display = hasCompletedTask ? 'block' : 'none';
     }
 }

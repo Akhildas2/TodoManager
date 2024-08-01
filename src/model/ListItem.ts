@@ -1,37 +1,14 @@
-export interface Item {
-    id: string,
-    item: string,
-    checked: boolean,
-}
+import { Item } from './BaseItem';
 
-export default class ListItem implements Item {
+export default class ListItem extends Item {
     constructor(
-        private _id: string = '',
-        private _item: string = '',
-        private _checked: boolean = false,
-    ) { }
-
-    get id(): string {
-        return this._id;
+        id: string,
+        item: string,
+        checked: boolean = false
+    ) {
+        super(id, item, checked);
     }
-
-    set id(id: string) {
-        this._id = id;
-    }
-
-    get item(): string {
-        return this._item;
-    }
-
-    set item(item: string) {
-        this._item = item;
-    }
-
-    get checked(): boolean {
-        return this._checked;
-    }
-
-    set checked(checked: boolean) {
-        this._checked = checked;
+    display(): string {
+        return `${this.item} - ${this.checked ? "Completed" : "Pending"}`;
     }
 }

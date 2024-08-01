@@ -1,19 +1,20 @@
+import { Item } from './BaseItem';
 import ListItem from './ListItem';
 
 interface List {
-    list: ListItem[],
+    list: Item[],
     load(): void,
     save(): void,
     clearList(): void,
-    addItem(itemObj: ListItem): void,
+    addItem(itemObj: Item): void,
     removeItem(id: string): void,
 }
 
 export default class FullList implements List {
     static instance: FullList = new FullList();
-    private constructor(private _list: ListItem[] = []) { }
+    private constructor(private _list: Item[] = []) { }
 
-    get list(): ListItem[] {
+    get list(): Item[] {
         return this._list;
     }
 
@@ -23,8 +24,8 @@ export default class FullList implements List {
         const parsedList: { _id: string, _item: string, _checked: boolean }[] = JSON.parse(storedList);
 
         parsedList.forEach(itemObj => {
-            const newListItem = new ListItem(itemObj._id, itemObj._item, itemObj._checked);
-            FullList.instance.addItem(newListItem);
+            const newItem = new ListItem(itemObj._id, itemObj._item, itemObj._checked);
+            FullList.instance.addItem(newItem);
         });
     }
 
@@ -37,7 +38,7 @@ export default class FullList implements List {
         this.save();
     }
 
-    addItem(itemObj: ListItem): void {
+    addItem(itemObj: Item): void {
         this._list.push(itemObj);
         this.save();
     }
