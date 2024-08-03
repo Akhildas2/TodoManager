@@ -1,4 +1,4 @@
-# Task Management
+# Todo Manager
 
 This is a simple task management application built with HTML, CSS, and TypeScript. The application allows you to add, remove, and mark tasks as completed. Completed tasks are displayed separately from pending tasks.
 
@@ -50,7 +50,8 @@ This is a simple task management application built with HTML, CSS, and TypeScrip
 
 ## File Structure
 
-task-management-app
+```sh
+Todo Manager
 │
 ├── public
 │└── favicon.ico
@@ -72,6 +73,7 @@ task-management-app
 ├── package.json
 ├── README.md
 └── tsconfig.json
+```
 
 ### File Descriptions
 
