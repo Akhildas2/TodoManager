@@ -1,16 +1,21 @@
+// Basic structure of an item
 export interface BaseItem {
     id: string;
     item: string;
     checked: boolean;
 }
 
+// Abstract class that implements the BaseItem interface
 export abstract class Item implements BaseItem {
+
+    // Constructor to initialize the item properties
     constructor(
         private _id: string,
         private _item: string,
         private _checked: boolean = false,
     ) { }
 
+    // Allow read and change 
     get id(): string {
         return this._id;
     }
@@ -35,5 +40,6 @@ export abstract class Item implements BaseItem {
         this._checked = checked;
     }
 
-    abstract display(): string;
+    // Abstract method that must be implemented by subclasses
+    abstract updateItemText(newText: string): void;
 }

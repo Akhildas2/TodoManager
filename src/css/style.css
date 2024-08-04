@@ -227,6 +227,21 @@ section {
     display: none;
 }
 
+.link {
+    color: #007bff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.edit-link {
+    margin-left: 10px;
+    font-size: 14px;
+}
+
 @media (min-width: 768px) {
     section {
         padding: 2rem;

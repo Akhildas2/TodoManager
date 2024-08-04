@@ -6,6 +6,7 @@ interface DOMList {
     render(fullList: FullList): void,
 }
 
+//For rendering and managing the DOM
 export default class ListTemplate implements DOMList {
     ul: HTMLUListElement;
     completedUl: HTMLUListElement;
@@ -18,11 +19,13 @@ export default class ListTemplate implements DOMList {
         this.completedSection = document.querySelector(".completedTasksContainer") as HTMLElement;
     }
 
+    // Clears the lists from the DOM
     clear(): void {
         this.ul.innerHTML = '';
         this.completedUl.innerHTML = '';
     }
 
+    // Renders the list items in the DOM
     render(fullList: FullList): void {
         this.clear();
         let hasCompletedTask = false;
@@ -31,6 +34,7 @@ export default class ListTemplate implements DOMList {
             const li = document.createElement("li") as HTMLLIElement;
             li.className = "item";
 
+            // Create and configure checkbox input
             const check = document.createElement("input") as HTMLInputElement;
             check.type = "checkbox";
             check.id = item.id;
@@ -38,27 +42,59 @@ export default class ListTemplate implements DOMList {
             check.checked = item.checked;
             li.append(check);
 
+            // Event listener for checkbox change
             check.addEventListener('change', () => {
                 item.checked = !item.checked;
                 fullList.save();
                 this.render(fullList);
             });
 
+            // Create and configure label
             const label = document.createElement("label") as HTMLLabelElement;
             label.htmlFor = item.id;
             label.textContent = item.item;
             li.append(label);
 
-            const button = document.createElement("button") as HTMLButtonElement;
-            button.className = 'button';
-            button.textContent = 'X';
-            li.append(button);
+            // Create and configure edit 
+            const editLink = document.createElement("a") as HTMLAnchorElement;
+            editLink.href = "#";
+            editLink.className = 'link edit-link';
+            editLink.textContent = 'Edit';
+            li.append(editLink);
 
-            button.addEventListener('click', () => {
+            // Event listener for edit 
+            editLink.addEventListener('click', (event: MouseEvent) => {
+                event.preventDefault();
+                const newText = prompt("Enter new text:", item.item);
+
+                if (newText == null || newText.trim() === "") {
+                    alert("Todo item cannot be empty.");
+                    return;
+                }
+
+                if (newText.length > 20) {
+                    alert("Todo item cannot be longer than 20 characters.");
+                    return;
+                }
+
+                item.updateItemText(newText.trim());
+                fullList.save();
+                this.render(fullList);
+            });
+
+            // Create and configure delete button
+            const deleteButton = document.createElement("button") as HTMLButtonElement;
+            deleteButton.className = 'button';
+            deleteButton.textContent = 'X';
+            li.append(deleteButton);
+
+            // Event listener for delete button
+            deleteButton.addEventListener('click', () => {
                 fullList.removeItem(item.id);
                 this.render(fullList);
             });
 
+            //Append item to the appropriate list 
             if (item.checked) {
                 this.completedUl.append(li)
                 hasCompletedTask = true;
@@ -67,6 +103,7 @@ export default class ListTemplate implements DOMList {
             }
         });
 
+        //Show or hide the completed section
         this.completedSection.style.display = hasCompletedTask ? 'block' : 'none';
     }
 }
