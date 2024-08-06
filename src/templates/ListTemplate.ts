@@ -72,8 +72,8 @@ export default class ListTemplate implements DOMList {
                     return;
                 }
 
-                if (newText.length > 20) {
-                    alert("Todo item cannot be longer than 20 characters.");
+                if (newText.length > 50) {
+                    alert("Todo item cannot be longer than 50 characters.");
                     return;
                 }
 

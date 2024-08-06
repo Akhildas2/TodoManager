@@ -19,8 +19,8 @@ const initApp = (): void => {
       alert("Todo item cannot be empty.");
       return;
     }
-    if (newEntryText.length > 20) {
-      alert("Todo item cannot be longer than 20 characters.");
+    if (newEntryText.length > 50) {
+      alert("Todo item cannot be longer than 50 characters.");
       return;
     }
 
