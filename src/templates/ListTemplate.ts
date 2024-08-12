@@ -28,7 +28,19 @@ export default class ListTemplate implements DOMList {
     // Renders the list items in the DOM
     render(fullList: FullList): void {
         this.clear();
+
+        // Check if the list is empty
+        if (fullList.list.length === 0) {
+            const emptyMessage = document.createElement("p");
+            emptyMessage.className = "empty-message";
+            emptyMessage.textContent = "No tasks available. Add a task to get started!";
+            this.ul.append(emptyMessage);
+            this.completedSection.style.display = 'none';
+            return; // Exit early since there are no tasks to render
+        }
+
         let hasCompletedTask = false;
+        let hasUncompletedTask = false;
 
         fullList.list.slice().reverse().forEach(item => {
             const li = document.createElement("li") as HTMLLIElement;
@@ -76,6 +88,10 @@ export default class ListTemplate implements DOMList {
                     alert("Todo item cannot be longer than 50 characters.");
                     return;
                 }
+                if (!isNaN(Number(newText))) {
+                    alert("The input is a number. Please enter a valid task.");
+                    return;
+                }
 
                 item.updateItemText(newText.trim());
                 fullList.save();
@@ -94,16 +110,24 @@ export default class ListTemplate implements DOMList {
                 this.render(fullList);
             });
 
-            //Append item to the appropriate list 
+            // Append item to the appropriate list
             if (item.checked) {
-                this.completedUl.append(li)
+                this.completedUl.append(li);
                 hasCompletedTask = true;
             } else {
                 this.ul.append(li);
+                hasUncompletedTask = true;
             }
         });
 
         //Show or hide the completed section
         this.completedSection.style.display = hasCompletedTask ? 'block' : 'none';
+        // Check if there are no uncompleted tasks
+        if (!hasUncompletedTask) {
+            const emptyMessage = document.createElement("p");
+            emptyMessage.className = "empty-message";
+            emptyMessage.textContent = "No uncompleted tasks left. You're all caught up!";
+            this.ul.append(emptyMessage);
+        }
     }
 }

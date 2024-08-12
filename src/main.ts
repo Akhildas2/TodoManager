@@ -24,6 +24,18 @@ const initApp = (): void => {
       return;
     }
 
+    if (!isNaN(Number(newEntryText))) {
+      alert("The input is a number. Please enter a valid task.");
+      return;
+    }
+
+
+    // Check if the item already exists
+    const itemExists = fullList.list.some(item => item.item.toLowerCase() === newEntryText.toLowerCase());
+    if (itemExists) {
+      alert("This item already exists in the list.");
+      return;
+    }
     // Generate a unique ID for the new item
     const itemId: number = fullList.list.length ? parseInt(fullList.list[fullList.list.length - 1].id) + 1 : 1;
 
@@ -41,6 +53,7 @@ const initApp = (): void => {
   clearItems.addEventListener('click', (): void => {
     fullList.clearList();
     template.clear();
+    location.reload();
   });
 
   // Load existing items and render the list
